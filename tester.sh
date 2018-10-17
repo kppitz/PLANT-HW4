@@ -66,4 +66,4 @@ for i in $inputs; do
   echo $lines errors
  done
  
- echo >> ./reports3/summary.txt
+ echo >> ./reports4/summary.txt

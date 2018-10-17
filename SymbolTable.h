@@ -1,6 +1,7 @@
 #ifndef SYMBOL_TABLE_H
 #define SYMBOL_TABLE_H
 //Type Codes
+#define NOT_APPLICABLE      -2
 #define UNDEFINED           -1
 #define FUNCTION            0
 #define INT                 1
@@ -10,7 +11,7 @@
 #define INT_OR_BOOL         5
 #define STR_OR_BOOL         6
 #define INT_OR_STR_OR_BOOL  7
-#define NOT_APPLICABLE      -1
+
 #define ARITH_OP             11
 #define LOG_OP               12
 #define REL_OP               13

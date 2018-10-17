@@ -60,11 +60,4 @@ EXPR -> IDENT							EXPR -> IDENT
 TOKEN: IDENT  LEXEME: z						TOKEN: IDENT     LEXEME: z
 EXPR -> IDENT							EXPR -> IDENT
 IF_EXPR -> if EXPR EXPR EXPR					IF_EXPR -> if EXPR EXPR EXPR
-PARENTHESIZED_EXPR -> IF_EXPR				      |	Line 7: Arg 3 cannot be function
-TOKEN: RPAREN  LEXEME: )				      <
-EXPR -> ( PARENTHESIZED_EXPR )				      <
-LET_EXPR -> let* ( ID_EXPR_LIST ) EXPR			      <
-							      <
-___Exiting scope...					      <
-							      <
-Line 7: Arg 2 cannot be function			      <
+Line 7: Arg 3 cannot be function				Line 7: Arg 3 cannot be function

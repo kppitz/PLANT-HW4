@@ -1,38 +1,45 @@
-							      >	TOKEN: LPAREN    LEXEME: (
-							      >	TOKEN: LPAREN    LEXEME: (
-							      >	TOKEN: LAMBDA    LEXEME: lambda
-							      >
-							      >	___Entering new scope...
-							      >
-							      >	TOKEN: LPAREN    LEXEME: (
-							      >	ID_LIST -> epsilon
-							      >	TOKEN: RPAREN    LEXEME: )
-							      >	TOKEN: INTCONST  LEXEME: 42
-							      >	CONST -> INTCONST
-							      >	EXPR -> CONST
-							      >	LAMBDA_EXPR -> lambda ( ID_LIST ) EXPR
-							      >
-							      >	___Exiting scope...
-							      >
-							      >	PARENTHESIZED_EXPR -> LAMBDA_EXPR
-							      >	TOKEN: RPAREN    LEXEME: )
-							      >	EXPR -> ( PARENTHESIZED_EXPR )
-							      >	TOKEN: INTCONST  LEXEME: 5
-							      >	CONST -> INTCONST
-							      >	EXPR -> CONST
-							      >	TOKEN: INTCONST  LEXEME: 6
-							      >	CONST -> INTCONST
-							      >	EXPR -> CONST
-							      >	TOKEN: INTCONST  LEXEME: 7
-							      >	CONST -> INTCONST
-							      >	EXPR -> CONST
-							      >	TOKEN: INTCONST  LEXEME: 8
-							      >	CONST -> INTCONST
-							      >	EXPR -> CONST
-							      >	TOKEN: RPAREN    LEXEME: )
-							      >	EXPR_LIST -> EXPR
-							      >	EXPR_LIST -> EXPR EXPR_LIST
-							      >	EXPR_LIST -> EXPR EXPR_LIST
-							      >	EXPR_LIST -> EXPR EXPR_LIST
-							      >	EXPR_LIST -> EXPR EXPR_LIST
-							      >	Line 1: Too many parameters in function call
+TOKEN: LPAREN  LEXEME: (					TOKEN: LPAREN    LEXEME: (
+TOKEN: LPAREN  LEXEME: (					TOKEN: LPAREN    LEXEME: (
+TOKEN: LAMBDA  LEXEME: lambda					TOKEN: LAMBDA    LEXEME: lambda
+
+___Entering new scope...					___Entering new scope...
+
+TOKEN: LPAREN  LEXEME: (					TOKEN: LPAREN    LEXEME: (
+ID_LIST -> epsilon						ID_LIST -> epsilon
+TOKEN: RPAREN  LEXEME: )					TOKEN: RPAREN    LEXEME: )
+TOKEN: INTCONST  LEXEME: 42					TOKEN: INTCONST  LEXEME: 42
+CONST -> INTCONST						CONST -> INTCONST
+EXPR -> CONST							EXPR -> CONST
+LAMBDA_EXPR -> lambda ( ID_LIST ) EXPR				LAMBDA_EXPR -> lambda ( ID_LIST ) EXPR
+
+___Exiting scope...						___Exiting scope...
+
+PARENTHESIZED_EXPR -> LAMBDA_EXPR				PARENTHESIZED_EXPR -> LAMBDA_EXPR
+TOKEN: RPAREN  LEXEME: )					TOKEN: RPAREN    LEXEME: )
+EXPR -> ( PARENTHESIZED_EXPR )					EXPR -> ( PARENTHESIZED_EXPR )
+TOKEN: INTCONST  LEXEME: 5					TOKEN: INTCONST  LEXEME: 5
+CONST -> INTCONST						CONST -> INTCONST
+EXPR -> CONST							EXPR -> CONST
+TOKEN: INTCONST  LEXEME: 6					TOKEN: INTCONST  LEXEME: 6
+CONST -> INTCONST						CONST -> INTCONST
+EXPR -> CONST							EXPR -> CONST
+TOKEN: INTCONST  LEXEME: 7					TOKEN: INTCONST  LEXEME: 7
+CONST -> INTCONST						CONST -> INTCONST
+EXPR -> CONST							EXPR -> CONST
+TOKEN: INTCONST  LEXEME: 8					TOKEN: INTCONST  LEXEME: 8
+CONST -> INTCONST						CONST -> INTCONST
+EXPR -> CONST							EXPR -> CONST
+TOKEN: RPAREN  LEXEME: )					TOKEN: RPAREN    LEXEME: )
+EXPR_LIST -> EXPR 						EXPR_LIST -> EXPR
+EXPR_LIST -> EXPR EXPR_LIST					EXPR_LIST -> EXPR EXPR_LIST
+EXPR_LIST -> EXPR EXPR_LIST					EXPR_LIST -> EXPR EXPR_LIST
+EXPR_LIST -> EXPR EXPR_LIST					EXPR_LIST -> EXPR EXPR_LIST
+EXPR_LIST -> EXPR EXPR_LIST					EXPR_LIST -> EXPR EXPR_LIST
+EXPR: 0							      |	Line 1: Too many parameters in function call
+EXPR_LIST: 1						      <
+PARENTHESIZED_EXPR -> EXPR_LIST				      <
+EXPR -> ( PARENTHESIZED_EXPR )				      <
+START -> EXPR						      <
+							      <
+---- Completed parsing ----				      <
+							      <

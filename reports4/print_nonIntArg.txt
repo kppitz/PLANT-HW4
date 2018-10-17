@@ -49,11 +49,4 @@ TOKEN: PRINT  LEXEME: print					TOKEN: PRINT     LEXEME: print
 TOKEN: IDENT  LEXEME: sub					TOKEN: IDENT     LEXEME: sub
 EXPR -> IDENT							EXPR -> IDENT
 PRINT_EXPR -> print EXPR					PRINT_EXPR -> print EXPR
-PARENTHESIZED_EXPR -> PRINT_EXPR			      |	Line 3: Arg 1 cannot be function
-TOKEN: RPAREN  LEXEME: )				      <
-EXPR -> ( PARENTHESIZED_EXPR )				      <
-LET_EXPR -> let* ( ID_EXPR_LIST ) EXPR			      <
-							      <
-___Exiting scope...					      <
-							      <
-Line 3: Arg 2 cannot be function			      <
+Line 3: Arg 1 cannot be function				Line 3: Arg 1 cannot be function

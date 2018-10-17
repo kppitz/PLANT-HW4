@@ -9,4 +9,4 @@ TOKEN: NIL  LEXEME: nil
 CONST -> nil
 EXPR -> CONST
 ARITHLOGIC_EXPR -> BIN_OP EXPR EXPR
-Line 1: Arg 2 must be integer
+Line 1: Arg 2 must be integer or string

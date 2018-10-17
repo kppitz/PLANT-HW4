@@ -2,6 +2,7 @@
 #define SYMBOL_TABLE_ENTRY_H
 
 #include <string>
+#include <iostream>
 using namespace std;
 
 #define UNDEFINED  -1
