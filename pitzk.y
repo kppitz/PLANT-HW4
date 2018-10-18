@@ -255,8 +255,8 @@ N_LET_EXPR : T_LETSTAR T_LPAREN N_ID_EXPR_LIST T_RPAREN N_EXPR
                 yyerror("Arg 2 cannot be function");
                 return(1);
               }
-              $$.type = $3.type;
-              $$.numParams = $3.numParams;
+              $$.type = $5.type;
+              $$.numParams = $5.numParams;
               $$.returnType = $5.returnType;
             }
             ;
@@ -276,21 +276,23 @@ N_ID_EXPR_LIST : /* epsilon */
                     $4.type)))
                     yyerror("Multiply defined identifier");
                   numParams++;
+                  $$.numParams = numParams;
                 }
                 ;
 
 N_LAMBDA_EXPR : T_LAMBDA T_LPAREN N_ID_LIST T_RPAREN N_EXPR
                 {
+                  numParams = 0;
                   printRule("LAMBDA_EXPR", "lambda ( ID_LIST ) EXPR");
                   $$.type = FUNCTION;
                   $$.numParams = scopeStack.top().getSize();
+                  $$.returnType = $5.type;
                   endScope();
                   if($5.type == FUNCTION)
                   {
                     yyerror("Arg 2 cannot be function");
                     return(1);
                   }
-                  $$.returnType = $5.type;
                 }
                 ;
 
@@ -307,7 +309,7 @@ N_ID_LIST : /* epsilon */
               if(!scopeStack.top().addEntry(SYMBOL_TABLE_ENTRY(string($2),
                 INT)))
                 yyerror("Multiply defined identifier");
-              numParams++;
+              //numParams++;
               //cout << "Num Params:" << numParams << endl;
             }
             ;
@@ -337,6 +339,7 @@ N_INPUT_EXPR : T_INPUT
 
 N_EXPR_LIST : N_EXPR N_EXPR_LIST
               {
+                numParams++;
                 printRule("EXPR_LIST", "EXPR EXPR_LIST");
                 if($2.type == FUNCTION)
                 {
@@ -345,22 +348,25 @@ N_EXPR_LIST : N_EXPR N_EXPR_LIST
                 }
                 $$.type = $2.type;
                 $$.numParams = $2.numParams;
-                $$.returnType = $1.returnType;
                 if($1.type == FUNCTION)
                 {
+                  numParams--;
                   //cout << "EXPR: " << $1.numParams << endl;
                   //cout << "EXPR_LIST: " << $2.numParams << endl;
-                  if($$.numParams < numParams)
+                  if($2.numParams < $1.numParams)
                   {
                     yyerror("Too few parameters in function call");
                     return(1);
                   }
-                  else if($$.numParams > numParams)
+                  else if($2.numParams > $1.numParams)
                   {
                     yyerror("Too many parameters in function call");
                     return(1);
                   }
                 }
+                numParams = 0;
+                $$.returnType = $1.returnType;
+                $$.numParams++;
               }
               | N_EXPR
               {
@@ -368,10 +374,10 @@ N_EXPR_LIST : N_EXPR N_EXPR_LIST
                 numParams = 1;
                 if ($1.type == FUNCTION) {
                   $$.type = $1.returnType;
-                  $$.numParams = $1.numParams;
                 }
                 else {
                   $$.type = $1.type;
+                  numParams++;
                 }
               }
               ;

@@ -42,4 +42,4 @@ EXPR -> CONST
 TOKEN: RPAREN  LEXEME: )
 EXPR_LIST -> EXPR 
 EXPR_LIST -> EXPR EXPR_LIST
-Line 4: Too few parameters in function call
+Line 4: Too many parameters in function call

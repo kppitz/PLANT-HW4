@@ -479,9 +479,9 @@ static const yytype_uint16 yyrline[] =
 {
        0,    50,    50,    58,    65,    75,    84,    91,    98,   105,
      114,   121,   128,   135,   142,   149,   156,   165,   177,   225,
-     249,   265,   268,   282,   298,   302,   315,   329,   338,   366,
-     380,   385,   390,   397,   401,   405,   409,   415,   419,   425,
-     429,   433,   437,   441,   445,   451
+     249,   265,   268,   283,   300,   304,   317,   331,   340,   371,
+     385,   390,   395,   402,   406,   410,   414,   420,   424,   430,
+     434,   438,   442,   446,   450,   456
 };
 #endif
 
@@ -1568,8 +1568,8 @@ yyreduce:
                 yyerror("Arg 2 cannot be function");
                 return(1);
               }
-              (yyval.typeInfo).type = (yyvsp[-2].typeInfo).type;
-              (yyval.typeInfo).numParams = (yyvsp[-2].typeInfo).numParams;
+              (yyval.typeInfo).type = (yyvsp[0].typeInfo).type;
+              (yyval.typeInfo).numParams = (yyvsp[0].typeInfo).numParams;
               (yyval.typeInfo).returnType = (yyvsp[0].typeInfo).returnType;
             }
 #line 1576 "pitzk.tab.c" /* yacc.c:1646  */
@@ -1595,38 +1595,40 @@ yyreduce:
                     (yyvsp[-1].typeInfo).type)))
                     yyerror("Multiply defined identifier");
                   numParams++;
+                  (yyval.typeInfo).numParams = numParams;
                 }
-#line 1600 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1601 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 283 "pitzk.y" /* yacc.c:1646  */
+#line 284 "pitzk.y" /* yacc.c:1646  */
     {
+                  numParams = 0;
                   printRule("LAMBDA_EXPR", "lambda ( ID_LIST ) EXPR");
                   (yyval.typeInfo).type = FUNCTION;
                   (yyval.typeInfo).numParams = scopeStack.top().getSize();
+                  (yyval.typeInfo).returnType = (yyvsp[0].typeInfo).type;
                   endScope();
                   if((yyvsp[0].typeInfo).type == FUNCTION)
                   {
                     yyerror("Arg 2 cannot be function");
                     return(1);
                   }
-                  (yyval.typeInfo).returnType = (yyvsp[0].typeInfo).type;
                 }
-#line 1617 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1619 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 298 "pitzk.y" /* yacc.c:1646  */
+#line 300 "pitzk.y" /* yacc.c:1646  */
     {
               printRule("ID_LIST", "epsilon");
               numParams = 0;
             }
-#line 1626 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1628 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 303 "pitzk.y" /* yacc.c:1646  */
+#line 305 "pitzk.y" /* yacc.c:1646  */
     {
               (yyval.typeInfo).type = FUNCTION;
               printRule("ID_LIST", "ID_LIST IDENT");
@@ -1634,14 +1636,14 @@ yyreduce:
               if(!scopeStack.top().addEntry(SYMBOL_TABLE_ENTRY(string((yyvsp[0].text)),
                 INT)))
                 yyerror("Multiply defined identifier");
-              numParams++;
+              //numParams++;
               //cout << "Num Params:" << numParams << endl;
             }
-#line 1641 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1643 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 316 "pitzk.y" /* yacc.c:1646  */
+#line 318 "pitzk.y" /* yacc.c:1646  */
     {
                 printRule("PRINT_EXPR", "print EXPR");
                 if((yyvsp[0].typeInfo).type == FUNCTION)
@@ -1653,201 +1655,204 @@ yyreduce:
                 (yyval.typeInfo).numParams = NOT_APPLICABLE;
                 (yyval.typeInfo).returnType = NOT_APPLICABLE;
               }
-#line 1657 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1659 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 330 "pitzk.y" /* yacc.c:1646  */
+#line 332 "pitzk.y" /* yacc.c:1646  */
     {
                 printRule("INPUT_EXPR", "input");
                 (yyval.typeInfo).type = INT_OR_STR;
                 (yyval.typeInfo).numParams = NOT_APPLICABLE;
                 (yyval.typeInfo).returnType = NOT_APPLICABLE;
               }
-#line 1668 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1670 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 339 "pitzk.y" /* yacc.c:1646  */
+#line 341 "pitzk.y" /* yacc.c:1646  */
     {
+                numParams++;
                 printRule("EXPR_LIST", "EXPR EXPR_LIST");
                 if((yyvsp[0].typeInfo).type == FUNCTION)
                 {
                   yyerror("Arg 2 cannot be function");
                   return(1);
                 }
-                numParams++;
                 (yyval.typeInfo).type = (yyvsp[0].typeInfo).type;
                 (yyval.typeInfo).numParams = (yyvsp[0].typeInfo).numParams;
-                (yyval.typeInfo).returnType = (yyvsp[-1].typeInfo).returnType;
                 if((yyvsp[-1].typeInfo).type == FUNCTION)
                 {
+                  numParams--;
                   //cout << "EXPR: " << $1.numParams << endl;
                   //cout << "EXPR_LIST: " << $2.numParams << endl;
-                  if((yyval.typeInfo).numParams < numParams)
+                  if((yyvsp[0].typeInfo).numParams < (yyvsp[-1].typeInfo).numParams)
                   {
                     yyerror("Too few parameters in function call");
                     return(1);
                   }
-                  else if((yyval.typeInfo).numParams > numParams)
+                  else if((yyvsp[0].typeInfo).numParams > (yyvsp[-1].typeInfo).numParams)
                   {
                     yyerror("Too many parameters in function call");
                     return(1);
                   }
                 }
+                numParams = 0;
+                (yyval.typeInfo).returnType = (yyvsp[-1].typeInfo).returnType;
+                (yyval.typeInfo).numParams++;
               }
-#line 1700 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1705 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 367 "pitzk.y" /* yacc.c:1646  */
+#line 372 "pitzk.y" /* yacc.c:1646  */
     {
                 printRule("EXPR_LIST", "EXPR ");
                 numParams = 1;
                 if ((yyvsp[0].typeInfo).type == FUNCTION) {
                   (yyval.typeInfo).type = (yyvsp[0].typeInfo).returnType;
-                  (yyval.typeInfo).numParams = (yyvsp[0].typeInfo).numParams;
                 }
                 else {
                   (yyval.typeInfo).type = (yyvsp[0].typeInfo).type;
+                  numParams++;
                 }
               }
-#line 1716 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1721 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 381 "pitzk.y" /* yacc.c:1646  */
+#line 386 "pitzk.y" /* yacc.c:1646  */
     {
             printRule("BIN_OP", "ARITH_OP");
             (yyval.typeInfo).opType = ARITH_OP;
           }
-#line 1725 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1730 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 386 "pitzk.y" /* yacc.c:1646  */
+#line 391 "pitzk.y" /* yacc.c:1646  */
     {
             printRule("BIN_OP", "LOG_OP");
             (yyval.typeInfo).opType = LOG_OP;
           }
-#line 1734 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1739 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 391 "pitzk.y" /* yacc.c:1646  */
+#line 396 "pitzk.y" /* yacc.c:1646  */
     {
             printRule("BIN_OP", "REL_OP");
             (yyval.typeInfo).opType = REL_OP;
           }
-#line 1743 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1748 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 398 "pitzk.y" /* yacc.c:1646  */
+#line 403 "pitzk.y" /* yacc.c:1646  */
     {
               printRule("ARITH_OP", "*");
             }
-#line 1751 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1756 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 402 "pitzk.y" /* yacc.c:1646  */
+#line 407 "pitzk.y" /* yacc.c:1646  */
     {
               printRule("ARITH_OP", "-");
             }
-#line 1759 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1764 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 406 "pitzk.y" /* yacc.c:1646  */
+#line 411 "pitzk.y" /* yacc.c:1646  */
     {
               printRule("ARITH_OP", "/");
             }
-#line 1767 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1772 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 410 "pitzk.y" /* yacc.c:1646  */
+#line 415 "pitzk.y" /* yacc.c:1646  */
     {
               printRule("ARITH_OP", "+");
             }
-#line 1775 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1780 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 416 "pitzk.y" /* yacc.c:1646  */
+#line 421 "pitzk.y" /* yacc.c:1646  */
     {
               printRule("LOG_OP", "and");
             }
-#line 1783 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1788 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 420 "pitzk.y" /* yacc.c:1646  */
+#line 425 "pitzk.y" /* yacc.c:1646  */
     {
               printRule("LOG_OP", "or");
             }
-#line 1791 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1796 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 426 "pitzk.y" /* yacc.c:1646  */
+#line 431 "pitzk.y" /* yacc.c:1646  */
     {
             printRule("REL_OP", "<");
           }
-#line 1799 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1804 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 430 "pitzk.y" /* yacc.c:1646  */
+#line 435 "pitzk.y" /* yacc.c:1646  */
     {
             printRule("REL_OP", ">");
           }
-#line 1807 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1812 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 434 "pitzk.y" /* yacc.c:1646  */
+#line 439 "pitzk.y" /* yacc.c:1646  */
     {
             printRule("REL_OP", "<=");
           }
-#line 1815 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1820 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 438 "pitzk.y" /* yacc.c:1646  */
+#line 443 "pitzk.y" /* yacc.c:1646  */
     {
             printRule("REL_OP", ">=");
           }
-#line 1823 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1828 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 442 "pitzk.y" /* yacc.c:1646  */
+#line 447 "pitzk.y" /* yacc.c:1646  */
     {
             printRule("REL_OP", "=");
           }
-#line 1831 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1836 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 446 "pitzk.y" /* yacc.c:1646  */
+#line 451 "pitzk.y" /* yacc.c:1646  */
     {
             printRule("REL_OP", "/=");
           }
-#line 1839 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1844 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 452 "pitzk.y" /* yacc.c:1646  */
+#line 457 "pitzk.y" /* yacc.c:1646  */
     {
             printRule("UN_OP", "not");
           }
-#line 1847 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1852 "pitzk.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1851 "pitzk.tab.c" /* yacc.c:1646  */
+#line 1856 "pitzk.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2075,7 +2080,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 456 "pitzk.y" /* yacc.c:1906  */
+#line 461 "pitzk.y" /* yacc.c:1906  */
 
 
 #include "lex.yy.c"

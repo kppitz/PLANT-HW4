@@ -42,9 +42,9 @@ TOKEN: RPAREN  LEXEME: )					TOKEN: RPAREN    LEXEME: )
 EXPR_LIST -> EXPR 						EXPR_LIST -> EXPR
 EXPR_LIST -> EXPR EXPR_LIST					EXPR_LIST -> EXPR EXPR_LIST
 EXPR_LIST -> EXPR EXPR_LIST					EXPR_LIST -> EXPR EXPR_LIST
-Line 1: Too few parameters in function call		      |	PARENTHESIZED_EXPR -> EXPR_LIST
-							      >	EXPR -> ( PARENTHESIZED_EXPR )
-							      >	START -> EXPR
-							      >
-							      >	---- Completed parsing ----
-							      >
+PARENTHESIZED_EXPR -> EXPR_LIST					PARENTHESIZED_EXPR -> EXPR_LIST
+EXPR -> ( PARENTHESIZED_EXPR )					EXPR -> ( PARENTHESIZED_EXPR )
+START -> EXPR							START -> EXPR
+
+---- Completed parsing ----					---- Completed parsing ----
+

@@ -122,7 +122,7 @@ EXPR -> CONST							EXPR -> CONST
 TOKEN: RPAREN  LEXEME: )					TOKEN: RPAREN    LEXEME: )
 EXPR_LIST -> EXPR 						EXPR_LIST -> EXPR
 EXPR_LIST -> EXPR EXPR_LIST					EXPR_LIST -> EXPR EXPR_LIST
-Line 7: Too few parameters in function call		      |	PARENTHESIZED_EXPR -> EXPR_LIST
+Line 7: Too many parameters in function call		      |	PARENTHESIZED_EXPR -> EXPR_LIST
 							      >	EXPR -> ( PARENTHESIZED_EXPR )
 							      >	TOKEN: LPAREN    LEXEME: (
 							      >	TOKEN: IDENT     LEXEME: fn

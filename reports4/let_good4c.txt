@@ -98,7 +98,7 @@ EXPR_LIST -> EXPR EXPR_LIST					EXPR_LIST -> EXPR EXPR_LIST
 EXPR_LIST -> EXPR EXPR_LIST					EXPR_LIST -> EXPR EXPR_LIST
 EXPR_LIST -> EXPR EXPR_LIST					EXPR_LIST -> EXPR EXPR_LIST
 EXPR_LIST -> EXPR EXPR_LIST					EXPR_LIST -> EXPR EXPR_LIST
-Line 4: Too few parameters in function call		      |	PARENTHESIZED_EXPR -> EXPR_LIST
+Line 4: Too many parameters in function call		      |	PARENTHESIZED_EXPR -> EXPR_LIST
 							      >	EXPR -> ( PARENTHESIZED_EXPR )
 							      >	TOKEN: RPAREN    LEXEME: )
 							      >	EXPR_LIST -> EXPR
