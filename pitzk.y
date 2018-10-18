@@ -207,7 +207,6 @@ N_ARITHLOGIC_EXPR : N_UN_OP N_EXPR
                     }
                     else if($1.opType == ARITH_OP)
                     {
-                      // cout << "Type: " << $2.type << endl;
                       if(($2.type & INT) == 0)
                         {
                           yyerror("Arg 1 must be integer");
@@ -309,6 +308,7 @@ N_ID_LIST : /* epsilon */
                 INT)))
                 yyerror("Multiply defined identifier");
               numParams++;
+              //cout << "Num Params:" << numParams << endl;
             }
             ;
 
@@ -348,14 +348,14 @@ N_EXPR_LIST : N_EXPR N_EXPR_LIST
                 $$.returnType = $1.returnType;
                 if($1.type == FUNCTION)
                 {
-                  cout << "EXPR: " << $1.numParams << endl;
-                  cout << "EXPR_LIST: " << $2.numParams << endl;
-                  if($1.numParams < numParams)
+                  //cout << "EXPR: " << $1.numParams << endl;
+                  //cout << "EXPR_LIST: " << $2.numParams << endl;
+                  if($$.numParams < numParams)
                   {
                     yyerror("Too few parameters in function call");
                     return(1);
                   }
-                  else if($1.numParams > numParams)
+                  else if($$.numParams > numParams)
                   {
                     yyerror("Too many parameters in function call");
                     return(1);
@@ -365,8 +365,10 @@ N_EXPR_LIST : N_EXPR N_EXPR_LIST
               | N_EXPR
               {
                 printRule("EXPR_LIST", "EXPR ");
+                numParams = 1;
                 if ($1.type == FUNCTION) {
                   $$.type = $1.returnType;
+                  $$.numParams = $1.numParams;
                 }
                 else {
                   $$.type = $1.type;
@@ -494,6 +496,7 @@ bool findEntryInAnyScope(const string theName)
   else { // check in "next higher" scope
     SYMBOL_TABLE symbolTable = scopeStack.top( );
     scopeStack.pop( );
+    numParams--;
     found = findEntryInAnyScope(theName);
     scopeStack.push(symbolTable); // restore the stack
     return(found);
